@@ -1,0 +1,237 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>q2p2</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-09-18"><meta name="DC.source" content="q2p2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%function [nspikes] = q2p1(wo,sigmaw)</span>
+
+Ns = 100;
+T = 500;
+lambda = 0.001;
+deltat = 0.1;
+N = T/deltat;
+event = zeros(N,Ns); <span class="comment">% array recording at each bucket if a stimulus arrived</span>
+<span class="keyword">for</span> i = 1:Ns
+    a = zeros(N,1);
+    R = rand(size(a));
+    a(R&lt;lambda*deltat) = 1; <span class="comment">% set each element of event to 1 with probability lambda*delta</span>
+    event(:,i) = a;
+<span class="keyword">end</span>
+
+<span class="comment">%for i = 1:Ns</span>
+<span class="comment">%    stimuli(i) = sum(event(i,:)==1);</span>
+<span class="comment">%end</span>
+event = reshape(event,Ns,N);
+<span class="comment">%for i = 1:Ns</span>
+<span class="comment">%    tk(i) = find(event(:,i)==1); % getting indices of arrivial</span>
+<span class="comment">%end</span>
+<span class="comment">%nspikes = size(tk);</span>
+<span class="comment">%inter_arrival = diff(tk)*deltat; % interarrival times in seconds</span>
+<span class="comment">%bin = 0:1:500;</span>
+<span class="comment">%count = histc(inter_arrival,bin);</span>
+<span class="comment">%figure; bar(bin,count,'histc'); % draw histogram of absolute count</span>
+time = deltat:deltat:T;
+<span class="comment">%figure, plot(time, event);</span>
+
+<span class="comment">%for i = 1:Ns</span>
+<span class="comment">%    figure, plot(time, event(i,:));</span>
+<span class="comment">%end</span>
+
+sigmaw = 25;
+wo = 250;
+Io = 10^(-12);
+we = randn(1,Ns); <span class="comment">% synaptic strength</span>
+we = wo + sigmaw*we;
+tc_m = 15; <span class="comment">%time constant of membrane</span>
+tc_s = tc_m/4; <span class="comment">%time constant of synapse</span>
+
+Iapp = zeros(Ns,N);
+
+<span class="keyword">for</span> i = 1:Ns
+    tk = find(event(i,:)==1);
+    [tkr,tkc] = size(tk);
+    <span class="keyword">if</span> (tkc&gt;0)
+        <span class="keyword">for</span> j = 1:N
+            <span class="keyword">for</span> k = 1:tkc
+                <span class="keyword">if</span>(tk(k)&lt;j)
+                    Iapp(i,j) = Iapp(i,j) + (exp((tk(k)-j)*deltat/tc_m) - exp((tk(k)-j)*deltat/tc_s));
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> i = 1:Ns
+    Iapp(i,:) = Iapp(i,:)*we(i)*Io;
+<span class="keyword">end</span>
+
+<span class="comment">%for i = 1:Ns</span>
+<span class="comment">%    figure, plot(time,Iapp(i,:));</span>
+<span class="comment">%end</span>
+
+Iappf = sum(Iapp);
+
+<span class="comment">%Iappf = reshape(Iappf,5000,1);</span>
+figure, plot(time, Iappf);
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'Input current'</span>);
+[V,nspikes] = q1p2_func(1,0.5,Iappf,1);
+V = reshape(V,N,1);
+fprintf(<span class="string">'number of spikes = '</span>);
+nspikes
+figure, plot(time,V);
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'output potential for mean = 250, and sigma = 25'</span>)
+</pre><pre class="codeoutput">number of spikes = 
+nspikes =
+
+    14
+
+</pre><img vspace="5" hspace="5" src="q2p2_01.png" alt=""> <img vspace="5" hspace="5" src="q2p2_02.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+
+%function [nspikes] = q2p1(wo,sigmaw)
+
+Ns = 100;
+T = 500;
+lambda = 0.001;
+deltat = 0.1;
+N = T/deltat; 
+event = zeros(N,Ns); % array recording at each bucket if a stimulus arrived
+for i = 1:Ns
+    a = zeros(N,1);
+    R = rand(size(a)); 
+    a(R<lambda*deltat) = 1; % set each element of event to 1 with probability lambda*delta
+    event(:,i) = a;
+end
+
+%for i = 1:Ns
+%    stimuli(i) = sum(event(i,:)==1);
+%end
+event = reshape(event,Ns,N);
+%for i = 1:Ns
+%    tk(i) = find(event(:,i)==1); % getting indices of arrivial
+%end
+%nspikes = size(tk);
+%inter_arrival = diff(tk)*deltat; % interarrival times in seconds
+%bin = 0:1:500; 
+%count = histc(inter_arrival,bin);
+%figure; bar(bin,count,'histc'); % draw histogram of absolute count
+time = deltat:deltat:T;
+%figure, plot(time, event);
+
+%for i = 1:Ns
+%    figure, plot(time, event(i,:));
+%end
+
+sigmaw = 25;
+wo = 250;
+Io = 10^(-12);
+we = randn(1,Ns); % synaptic strength
+we = wo + sigmaw*we;
+tc_m = 15; %time constant of membrane
+tc_s = tc_m/4; %time constant of synapse
+
+Iapp = zeros(Ns,N);
+
+for i = 1:Ns
+    tk = find(event(i,:)==1);
+    [tkr,tkc] = size(tk);
+    if (tkc>0)
+        for j = 1:N
+            for k = 1:tkc
+                if(tk(k)<j)
+                    Iapp(i,j) = Iapp(i,j) + (exp((tk(k)-j)*deltat/tc_m) - exp((tk(k)-j)*deltat/tc_s));
+                end
+            end
+        end
+    end
+end
+
+for i = 1:Ns
+    Iapp(i,:) = Iapp(i,:)*we(i)*Io;
+end
+
+%for i = 1:Ns
+%    figure, plot(time,Iapp(i,:));
+%end
+
+Iappf = sum(Iapp);
+
+%Iappf = reshape(Iappf,5000,1);
+figure, plot(time, Iappf);
+xlabel('time');
+ylabel('Input current');
+[V,nspikes] = q1p2_func(1,0.5,Iappf,1);
+V = reshape(V,N,1);
+fprintf('number of spikes = ');
+nspikes
+figure, plot(time,V);
+xlabel('time');
+ylabel('output potential for mean = 250, and sigma = 25')
+
+##### SOURCE END #####
+--></body></html>

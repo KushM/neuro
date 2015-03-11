@@ -1,0 +1,388 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>q5p4</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-09-18"><meta name="DC.source" content="q5p4.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">Ns = 100;
+T = 500;
+lambda = 0.001;
+deltat = 0.1;
+N = T/deltat;
+event = zeros(N,Ns); <span class="comment">% array recording at each bucket if a stimulus arrived</span>
+<span class="keyword">for</span> i = 1:Ns
+    a = zeros(N,1);
+    R = rand(size(a));
+    a(R&lt;lambda*deltat) = 1; <span class="comment">% set each element of event to 1 with probability lambda*delta</span>
+    event(:,i) = a;
+<span class="keyword">end</span>
+event = reshape(event,Ns,N);
+event2 = zeros(N,Ns); <span class="comment">% array recording at each bucket if a stimulus arrived</span>
+<span class="keyword">for</span> i = 1:Ns
+    a = zeros(N,1);
+    R = rand(size(a));
+    a(R&lt;lambda*deltat) = 1; <span class="comment">% set each element of event to 1 with probability lambda*delta</span>
+    event2(:,i) = a;
+<span class="keyword">end</span>
+event2 = reshape(event2,Ns,N);
+
+
+time = deltat:deltat:T;
+
+sigmaw = 20;
+wo = 200;
+Io = 10^(-12);
+we = randn(1,Ns); <span class="comment">% synaptic strength</span>
+we = wo + sigmaw*we;
+tc_m = 15; <span class="comment">%time constant of membrane</span>
+tc_s = tc_m/4; <span class="comment">%time constant of synapse</span>
+
+Iapp = zeros(Ns,N);
+<span class="keyword">for</span> i = 1:Ns
+    tk = find(event(i,:)==1);
+    [tkr,tkc] = size(tk);
+    <span class="keyword">if</span> (tkc&gt;0)
+        <span class="keyword">for</span> j = 1:N
+            <span class="keyword">for</span> k = 1:tkc
+                <span class="keyword">if</span>(tk(k)&lt;j)
+                    Iapp(i,j) = Iapp(i,j) + (exp((tk(k)-j)*deltat/tc_m) - exp((tk(k)-j)*deltat/tc_s));
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+Japp = Iapp;
+<span class="keyword">for</span> i = 1:Ns
+    Iapp(i,:) = Japp(i,:)*we(i)*Io;
+<span class="keyword">end</span>
+Iappf = sum(Iapp);
+
+Iapp2 = zeros(Ns,N);
+<span class="keyword">for</span> i = 1:Ns
+    tk = find(event2(i,:)==1);
+    [tkr,tkc] = size(tk);
+    <span class="keyword">if</span> (tkc&gt;0)
+        <span class="keyword">for</span> j = 1:N
+            <span class="keyword">for</span> k = 1:tkc
+                <span class="keyword">if</span>(tk(k)&lt;j)
+                    Iapp2(i,j) = Iapp2(i,j) + (exp((tk(k)-j)*deltat/tc_m) - exp((tk(k)-j)*deltat/tc_s));
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+Japp2 = Iapp2;
+<span class="keyword">for</span> i = 1:Ns
+    Iapp2(i,:) = Iapp2(i,:)*we(i)*Io;
+<span class="keyword">end</span>
+Iappf2 = sum(Iapp2);
+
+<span class="keyword">while</span>(1)
+    [V,nspikes] = q1p2_func(1,0.5,Iappf,1);
+    [V2,nspikes2] = q1p2_func(1,0.5,Iappf2,1);
+    <span class="keyword">if</span>(nspikes==0 &amp;&amp; nspikes2&gt;0)
+        <span class="keyword">break</span>;
+    <span class="keyword">end</span>
+    <span class="keyword">if</span>(nspikes2 == 0)
+        [Iappf2,we] = func_bring(event2,Iappf2,Japp2,we,Iapp2);
+        <span class="keyword">for</span> i = 1:Ns
+            Iapp(i,:) = Japp(i,:)*we(i)*Io;
+        <span class="keyword">end</span>
+        Iappf = sum(Iapp);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> (nspikes2&gt;0)
+        [Iappf,we] = func_remove(event,Iappf,Japp,we,Iapp);
+        <span class="keyword">for</span> i = 1:Ns
+            Iapp2(i,:) = Japp2(i,:)*we(i)*Io;
+        <span class="keyword">end</span>
+        Iappf2 = sum(Iapp2);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+[V,nspikes] = q1p2_func(1,0.5,Iappf,1);
+V = reshape(V,N,1);
+
+[V2,nspikes2] = q1p2_func(1,0.5,Iappf2,1);
+V2 = reshape(V2,N,1);
+
+figure, plot(time, Iappf);
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'current for S1'</span>);
+figure, plot(time,V);
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'Potential S1'</span>);
+figure, plot(time, Iappf2);
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'current for S2'</span>);
+figure, plot(time,V2);
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'Potential S2'</span>);
+
+fprintf(<span class="string">'No. of spikes for S1 : '</span>);
+nspikes
+fprintf(<span class="string">'No. of spikes for S2 : '</span>);
+nspikes2
+fprintf(<span class="string">'Strength of the synapses : '</span>);
+we
+</pre><pre class="codeoutput">No. of spikes for S1 : 
+nspikes =
+
+     0
+
+No. of spikes for S2 : 
+nspikes2 =
+
+     4
+
+Strength of the synapses : 
+we =
+
+  Columns 1 through 7
+
+  183.7608  196.0230  182.4124  201.6233  215.9551  180.5560  190.1705
+
+  Columns 8 through 14
+
+  201.4087  180.0028  100.1403  212.6943  196.6065  193.5186  197.0568
+
+  Columns 15 through 21
+
+  220.9472  238.1351  172.8795  225.2776   88.9708  242.6956  198.8217
+
+  Columns 22 through 28
+
+  166.2984  208.4798  193.3748  198.8188  228.5159  226.3198  187.0963
+
+  Columns 29 through 35
+
+  193.4561   56.6469  215.1608  183.5548  190.2772  206.1707   72.0620
+
+  Columns 36 through 42
+
+  101.5847  195.8055  210.9593  196.4417  194.2396  206.4835  192.9776
+
+  Columns 43 through 49
+
+  230.6017  201.8652  198.0985  180.0393  217.0309  206.7342  190.6446
+
+  Columns 50 through 56
+
+  139.7999  158.2099  194.7859  220.9383  168.7609  110.4757  193.9840
+
+  Columns 57 through 63
+
+  203.9397   35.9564  183.7776  184.9319  189.3087  129.2951  209.2726
+
+  Columns 64 through 70
+
+  200.1960   92.8414  174.8207  221.2060  175.6374  167.3766   10.0000
+
+  Columns 71 through 77
+
+  203.2352  198.2229  198.0654   27.4888   30.0526  196.9600  140.9526
+
+  Columns 78 through 84
+
+  221.3686  184.3916  231.8231  202.9041   48.9235  222.0967  198.9204
+
+  Columns 85 through 91
+
+  202.3895  212.8433  206.4323  169.0645  180.2938  204.6320   10.0000
+
+  Columns 92 through 98
+
+  190.4291  197.4014  213.0926  223.9704  209.3032  210.4991  199.3377
+
+  Columns 99 through 100
+
+  184.2537  172.1967
+
+</pre><img vspace="5" hspace="5" src="q5p4_01.png" alt=""> <img vspace="5" hspace="5" src="q5p4_02.png" alt=""> <img vspace="5" hspace="5" src="q5p4_03.png" alt=""> <img vspace="5" hspace="5" src="q5p4_04.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+
+Ns = 100;
+T = 500;
+lambda = 0.001;
+deltat = 0.1;
+N = T/deltat; 
+event = zeros(N,Ns); % array recording at each bucket if a stimulus arrived
+for i = 1:Ns
+    a = zeros(N,1);
+    R = rand(size(a)); 
+    a(R<lambda*deltat) = 1; % set each element of event to 1 with probability lambda*delta
+    event(:,i) = a;
+end
+event = reshape(event,Ns,N);
+event2 = zeros(N,Ns); % array recording at each bucket if a stimulus arrived
+for i = 1:Ns
+    a = zeros(N,1);
+    R = rand(size(a)); 
+    a(R<lambda*deltat) = 1; % set each element of event to 1 with probability lambda*delta
+    event2(:,i) = a;
+end
+event2 = reshape(event2,Ns,N);
+
+
+time = deltat:deltat:T;
+
+sigmaw = 20;
+wo = 200;
+Io = 10^(-12);
+we = randn(1,Ns); % synaptic strength
+we = wo + sigmaw*we;
+tc_m = 15; %time constant of membrane
+tc_s = tc_m/4; %time constant of synapse
+
+Iapp = zeros(Ns,N);
+for i = 1:Ns
+    tk = find(event(i,:)==1);
+    [tkr,tkc] = size(tk);
+    if (tkc>0)
+        for j = 1:N
+            for k = 1:tkc
+                if(tk(k)<j)
+                    Iapp(i,j) = Iapp(i,j) + (exp((tk(k)-j)*deltat/tc_m) - exp((tk(k)-j)*deltat/tc_s));
+                end
+            end
+        end
+    end
+end
+Japp = Iapp;
+for i = 1:Ns
+    Iapp(i,:) = Japp(i,:)*we(i)*Io;
+end
+Iappf = sum(Iapp);
+
+Iapp2 = zeros(Ns,N);
+for i = 1:Ns
+    tk = find(event2(i,:)==1);
+    [tkr,tkc] = size(tk);
+    if (tkc>0)
+        for j = 1:N
+            for k = 1:tkc
+                if(tk(k)<j)
+                    Iapp2(i,j) = Iapp2(i,j) + (exp((tk(k)-j)*deltat/tc_m) - exp((tk(k)-j)*deltat/tc_s));
+                end
+            end
+        end
+    end
+end
+Japp2 = Iapp2;
+for i = 1:Ns
+    Iapp2(i,:) = Iapp2(i,:)*we(i)*Io;
+end
+Iappf2 = sum(Iapp2);
+
+while(1)
+    [V,nspikes] = q1p2_func(1,0.5,Iappf,1);
+    [V2,nspikes2] = q1p2_func(1,0.5,Iappf2,1);
+    if(nspikes==0 && nspikes2>0)
+        break;
+    end
+    if(nspikes2 == 0)
+        [Iappf2,we] = func_bring(event2,Iappf2,Japp2,we,Iapp2);
+        for i = 1:Ns
+            Iapp(i,:) = Japp(i,:)*we(i)*Io;
+        end
+        Iappf = sum(Iapp);
+    end
+    if (nspikes2>0)
+        [Iappf,we] = func_remove(event,Iappf,Japp,we,Iapp);
+        for i = 1:Ns
+            Iapp2(i,:) = Japp2(i,:)*we(i)*Io;
+        end
+        Iappf2 = sum(Iapp2);
+    end
+end
+
+[V,nspikes] = q1p2_func(1,0.5,Iappf,1);
+V = reshape(V,N,1);
+
+[V2,nspikes2] = q1p2_func(1,0.5,Iappf2,1);
+V2 = reshape(V2,N,1);
+
+figure, plot(time, Iappf);
+xlabel('time');
+ylabel('current for S1');
+figure, plot(time,V);
+xlabel('time');
+ylabel('Potential S1');
+figure, plot(time, Iappf2);
+xlabel('time');
+ylabel('current for S2');
+figure, plot(time,V2);
+xlabel('time');
+ylabel('Potential S2');
+
+fprintf('No. of spikes for S1 : ');
+nspikes
+fprintf('No. of spikes for S2 : ');
+nspikes2
+fprintf('Strength of the synapses : ');
+we
+
+
+##### SOURCE END #####
+--></body></html>
